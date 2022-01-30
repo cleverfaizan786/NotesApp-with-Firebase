@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.listyle{
+@apply ml-20 cursor-pointer hover:text-blue-800 transition
+
+}
+.button{
+    @apply bg-blue-500 text-white rounded-md px-4 pb-2 pt-1 hover:bg-blue-700 transition
+}
