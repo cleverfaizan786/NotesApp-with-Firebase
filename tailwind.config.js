@@ -1,9 +1,10 @@
 module.exports = {
+  mode:'jit',
   content: [ "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     fontFamily:{
-     'amazon': ['Amazon Ember', 'Arial', 'sans-serif']
+     'amazon': ['Amazon Ember', 'Arial', ]
 
     },
     extend: {},
