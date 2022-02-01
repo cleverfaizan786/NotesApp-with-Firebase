@@ -6,7 +6,7 @@ export default class Header extends Component {
       <>
         <nav className="sticky w-full bg-white h-[52px] top-0 flex text-blue-500 items-center justify-between shadow-xl">
           <div className="left-section flex items-center">
-            <h1 className="ml-5 font-bold text-xl">NotesApp</h1>
+            <h1 className="ml-5 font-bold text-xl ">NotesApp</h1>
             <ul className="flex w-1/2 ml-16">
               <li className="hover:text-blue-800 cursor-pointer transition">
                 Home
