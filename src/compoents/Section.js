@@ -71,7 +71,7 @@ export default class Section extends Component {
             </div>
           </form>
         </div>
-        <div className="flex">
+        <div className="flex flex-wrap">
         {this.state.myArr.map((elem) => {
           //  <Note title={elem.heading} content={elem.body} className="grid grid-cols-3"/>;
           return (
