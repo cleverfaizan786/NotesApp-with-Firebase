@@ -79,7 +79,7 @@ export default class Section extends Component {
                 ref={this.bodyRef}
                 required
               />
-              <button type="submit" className="button w-1/6">
+              <button type="submit" className="button w-1/6 disabled:bg-blue-100 disabled:text-gray-500" disabled={this.props.authState==="" ? true : false}>
                 Add Note
               </button>
             </div>

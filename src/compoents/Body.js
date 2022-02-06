@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { auth } from "../Firebase Utility/firebase";
 import { GoogleAuthProvider } from "@firebase/auth";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { signInWithPopup} from "firebase/auth";
+import Section from "./Section";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -61,6 +62,7 @@ export default class Header extends Component {
             )}
           </div>
         </nav>
+        <Section authState={this.state.username} />
       </>
     );
   }
