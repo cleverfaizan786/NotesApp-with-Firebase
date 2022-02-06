@@ -4,11 +4,11 @@ export default class Header extends Component {
   render() {
     return (
       <>
-        <nav className="sticky w-full bg-white h-[52px] top-0 flex text-blue-500 items-center justify-between shadow-xl">
+        <nav className="sticky w-full bg-white h-[52px] top-0 flex text-blue-500 items-center justify-between shadow-lg">
           <div className="left-section flex items-center">
             <h1 className="ml-5 font-bold text-xl ">NotesApp</h1>
             <ul className="flex w-1/2 ml-16">
-              <li className="hover:text-blue-800 cursor-pointer transition">
+              <li className="hover:text-blue-800 cursor-pointer transition  border-b-2 border-transparent hover:border-blue-600">
                 Home
               </li>
               <li className="listyle">About</li>

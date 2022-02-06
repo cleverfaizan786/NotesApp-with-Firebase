@@ -16,6 +16,7 @@ export default class Section extends Component {
       ],
     };
   }
+  // 😍 Successfully added note appending functionality to react website
   submitForm = (e) => {
     this.setState((prevState) => ({
       myArr: [
@@ -30,11 +31,24 @@ export default class Section extends Component {
 
     e.preventDefault();
   };
+  // Deleting a specific note ❌
+  handleDelete(key) {
+ 
+   let updatedNotes=this.state.myArr.filter((elem,index)=>{
+ return key !==index
+   })
+     
+  this.setState({
+    myArr:[...updatedNotes]
+  })
+
+  
+    }
 
   render() {
     return (
       <div>
-        <h1 className="font-bold text-3xl text-center mt-10 font-[amazon] text-blue-500">
+        <h1 className="font-bold text-3xl text-center mt-10 font-[amazon] text-blue-700">
           Welcome to NotesTaking App
         </h1>
         <div className="w-[40%] m-auto mt-10">
@@ -46,7 +60,7 @@ export default class Section extends Component {
               <input
                 type="text"
                 id="text"
-                className="border-2 border-gray-400 rounded-md p-2 outline-none hover:shadow-lg  hover:ring-gray-200 hover:ring-2"
+                className="border-2 border-gray-300 rounded-md p-2 outline-none hover:shadow-lg  hover:ring-gray-200 hover:ring-2"
                 ref={this.titleRef}
                 required
               />
@@ -59,7 +73,7 @@ export default class Section extends Component {
               <textarea
                 cols="90"
                 rows="6"
-                className="border-2 border-gray-400 rounded-md p-2 outline-none hover:shadow-lg hover:ring-gray-200 hover:ring-2"
+                className="border-2 border-gray-300 rounded-md p-2 outline-none hover:shadow-lg hover:ring-gray-200 hover:ring-2"
                 id="content"
                 style={{ resize: "none" }}
                 ref={this.bodyRef}
@@ -72,15 +86,18 @@ export default class Section extends Component {
           </form>
         </div>
         <div className="flex flex-wrap">
-        {this.state.myArr.map((elem) => {
-          //  <Note title={elem.heading} content={elem.body} className="grid grid-cols-3"/>;
-          return (
-            (this.title==='' || elem.body==='') ? null :  <Note key={elem.title} title={elem.heading} content={elem.body} className="flex"/>
-          )
-      
-        })}
+          {this.state.myArr.map((elem, index) => {
+            //  <Note title={elem.heading} content={elem.body} className="grid grid-cols-3"/>;
+            return this.title === "" || elem.body === "" ? null : (
+              <Note
+                key={index}
+                title={elem.heading}
+                content={elem.body}
+                deleteBtn={() => this.handleDelete(index)}
+              />
+            );
+          })}
         </div>
-     
       </div>
     );
   }

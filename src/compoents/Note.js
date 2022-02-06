@@ -6,7 +6,7 @@ export default class Note extends Component {
       
   <div className="note-card shadow-xl w-1/5 h-auto my-12 ml-16 bg-white ring-1 ring-gray-400 rounded-sm break-words">
         <div className="title font-bold text-center py-2 text-xl">
-          {" "}
+        
           <span className="text-blue-600  ">Title:</span> {this.props.title}
         </div>
         <hr />
@@ -15,6 +15,7 @@ export default class Note extends Component {
           {this.props.content}
         </div>
         <button className="button my-5 mx-6">Edit</button>
+        <button className=" bg-red-600 text-white rounded-md px-4 pb-2 pt-1 hover:bg-red-700 transition " onClick={this.props.deleteBtn}>Delete</button>
       </div>
      
     );
