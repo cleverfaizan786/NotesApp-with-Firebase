@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 .listyle{
-@apply ml-20 cursor-pointer hover:text-blue-800 transition border-b-2 border-transparent hover:border-blue-600
+@apply  cursor-pointer hover:text-blue-800 transition border-b-2 border-transparent hover:border-blue-600
 
 }
 .button{

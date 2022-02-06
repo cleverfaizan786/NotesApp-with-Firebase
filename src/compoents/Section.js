@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Note from "./Note";
 
 export default class Section extends Component {
@@ -31,19 +32,18 @@ export default class Section extends Component {
 
     e.preventDefault();
   };
+
   // Deleting a specific note ❌
   handleDelete(key) {
- 
-   let updatedNotes=this.state.myArr.filter((elem,index)=>{
- return key !==index
-   })
-     
-  this.setState({
-    myArr:[...updatedNotes]
-  })
+    let updatedNotes = this.state.myArr.filter((elem, index) => {
+      return key !== index;
+    });
 
-  
-    }
+    this.setState({
+      // Updating note and removing specific note
+      myArr: [...updatedNotes],
+    });
+  }
 
   render() {
     return (
