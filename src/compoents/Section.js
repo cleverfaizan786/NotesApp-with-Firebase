@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../Firebase Utility/firebase";
 
 import Note from "./Note";
 
@@ -45,6 +47,19 @@ export default class Section extends Component {
     });
   }
 
+  addData = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "notes"), {
+        title: this.titleRef.current.value,
+        description: this.bodyRef.current.value,
+      });
+
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   render() {
     return (
       <div>
@@ -79,7 +94,12 @@ export default class Section extends Component {
                 ref={this.bodyRef}
                 required
               />
-              <button type="submit" className="button w-1/6 disabled:bg-blue-100 disabled:text-gray-500" disabled={this.props.authState==="" ? true : false}>
+              <button
+                type="submit"
+                onClick={this.addData}
+                className="button w-1/6 disabled:bg-blue-100 disabled:text-gray-500"
+                disabled={this.props.authState === "" ? true : false}
+              >
                 Add Note
               </button>
             </div>
@@ -97,6 +117,13 @@ export default class Section extends Component {
               />
             );
           })}
+
+          {this.props.authState !== "" ? (
+            <Note
+              title={this.props.notes}
+            
+            />
+          ) : null}
         </div>
       </div>
     );

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { auth } from "../Firebase Utility/firebase";
+import { auth, db } from "../Firebase Utility/firebase";
+import { collection, getDocs } from "firebase/firestore";
 import { GoogleAuthProvider } from "@firebase/auth";
-import { signInWithPopup} from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import Section from "./Section";
 
 const googleProvider = new GoogleAuthProvider();
@@ -12,23 +13,34 @@ export default class Header extends Component {
 
     this.state = {
       photo: "",
-      username:""
+      username: "",
+      notes:""
     };
   }
 
-  signInwithGoogle = () => {
-    signInWithPopup(auth, googleProvider)
+  signInwithGoogle = async () => {
+    await signInWithPopup(auth, googleProvider)
       .then((res) => {
         console.log(res.user.displayName);
         console.log(res.user.photoURL);
         this.setState({
           photo: res.user.photoURL,
-          username:res.user.displayName
+          username: res.user.displayName,
         });
       })
       .catch((er) => {
         console.log(er.message);
       });
+    const querySnapshot = await getDocs(collection(db, "notes"));
+
+    querySnapshot.forEach((doc) => {
+      this.setState({
+        notes:doc.data().title
+      })
+
+    });
+
+
   };
   render() {
     return (
@@ -55,14 +67,20 @@ export default class Header extends Component {
               </>
             ) : (
               <div className="flex space-x-4 items-center">
-                <div className="text-lg cursor-pointer">Welcome {this.state.username}</div>
-                <img class="rounded-full h-10 cursor-pointer" src={this.state.photo} alt="" />
+                <div className="text-lg cursor-pointer">
+                  Welcome {this.state.username}
+                </div>
+                <img
+                  className="rounded-full h-10 cursor-pointer"
+                  src={this.state.photo}
+                  alt=""
+                />
                 <button className="button">Signout</button>
               </div>
             )}
           </div>
         </nav>
-        <Section authState={this.state.username} />
+        <Section authState={this.state.username} notes={this.state.notes} />
       </>
     );
   }
