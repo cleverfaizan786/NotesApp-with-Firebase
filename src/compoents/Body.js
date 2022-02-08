@@ -14,7 +14,7 @@ export default class Header extends Component {
     this.state = {
       photo: "",
       username: "",
-      notes:""
+      notes: [],
     };
   }
 
@@ -34,13 +34,12 @@ export default class Header extends Component {
     const querySnapshot = await getDocs(collection(db, "notes"));
 
     querySnapshot.forEach((doc) => {
-      this.setState({
-        notes:doc.data().title
-      })
-
+      this.setState((prevState) => ({
+        ...prevState,
+        notes: [...this.state.notes, doc.data()],
+      }));
+    
     });
-
-
   };
   render() {
     return (
@@ -81,6 +80,7 @@ export default class Header extends Component {
           </div>
         </nav>
         <Section authState={this.state.username} notes={this.state.notes} />
+         
       </>
     );
   }

@@ -118,12 +118,19 @@ export default class Section extends Component {
             );
           })}
 
-          {this.props.authState !== "" ? (
-            <Note
-              title={this.props.notes}
-            
-            />
-          ) : null}
+          {/* Fetching Backend stuff */}
+          {this.props.authState !== ""
+            ? this.props.notes.map((elem, index) => {
+                return (
+                  <Note
+                    key={index}
+                    title={elem.title}
+                    content={elem.description}
+                    deleteBtn={() => this.handleDelete(index)}
+                  />
+                );
+              })
+            : null}
         </div>
       </div>
     );
