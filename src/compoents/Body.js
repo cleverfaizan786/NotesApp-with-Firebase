@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { auth, db } from "../Firebase Utility/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { GoogleAuthProvider } from "@firebase/auth";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import Section from "./Section";
 
 const googleProvider = new GoogleAuthProvider();
@@ -38,9 +38,27 @@ export default class Header extends Component {
         ...prevState,
         notes: [...this.state.notes, doc.data()],
       }));
-    
     });
   };
+
+  componentDidMount() {
+    onAuthStateChanged(auth, async (user) => {
+      if (user.displayName != null) {
+        this.setState({ 
+          photo:user.photoURL,
+          username:user.displayName
+        })
+        const querySnapshot = await getDocs(collection(db, "notes"));
+
+        querySnapshot.forEach((doc) => {
+          this.setState({
+            
+            notes: [...this.state.notes, doc.data()],
+          });
+        });
+      }
+    });
+  }
   render() {
     return (
       <>
@@ -74,13 +92,30 @@ export default class Header extends Component {
                   src={this.state.photo}
                   alt=""
                 />
-                <button className="button">Signout</button>
+                <button
+                  className="button"
+                  onClick={() => {
+                    signOut(auth)
+                      .then(() => {
+                        console.log("Success");
+                        this.setState({
+                          photo: "",
+                          username: "",
+                          notes: [],
+                        });
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+                  }}
+                >
+                  Signout
+                </button>
               </div>
             )}
           </div>
         </nav>
         <Section authState={this.state.username} notes={this.state.notes} />
-         
       </>
     );
   }
