@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { auth, db } from "../Firebase Utility/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { auth} from "../Firebase Utility/firebase";
 import { GoogleAuthProvider } from "@firebase/auth";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import Section from "./Section";
@@ -14,15 +13,12 @@ export default class Header extends Component {
     this.state = {
       photo: "",
       username: "",
-      notes: [],
     };
   }
 
   signInwithGoogle = async () => {
     await signInWithPopup(auth, googleProvider)
       .then((res) => {
-        console.log(res.user.displayName);
-        console.log(res.user.photoURL);
         this.setState({
           photo: res.user.photoURL,
           username: res.user.displayName,
@@ -31,34 +27,20 @@ export default class Header extends Component {
       .catch((er) => {
         console.log(er.message);
       });
-    const querySnapshot = await getDocs(collection(db, "notes"));
-
-    querySnapshot.forEach((doc) => {
-      this.setState((prevState) => ({
-        ...prevState,
-        notes: [...this.state.notes, doc.data()],
-      }));
-    });
   };
-
-  componentDidMount() {
+  componentDidMount(){
     onAuthStateChanged(auth, async (user) => {
       if (user.displayName != null) {
-        this.setState({ 
-          photo:user.photoURL,
-          username:user.displayName
-        })
-        const querySnapshot = await getDocs(collection(db, "notes"));
-
-        querySnapshot.forEach((doc) => {
-          this.setState({
-            
-            notes: [...this.state.notes, doc.data()],
-          });
+        this.setState({
+       photo:user.photoURL,
+       username:user.displayName
+       
         });
+        
       }
     });
   }
+
   render() {
     return (
       <>
@@ -97,12 +79,11 @@ export default class Header extends Component {
                   onClick={() => {
                     signOut(auth)
                       .then(() => {
-                        console.log("Success");
                         this.setState({
                           photo: "",
                           username: "",
-                          notes: [],
                         });
+                        localStorage.clear()
                       })
                       .catch((error) => {
                         console.log(error);
@@ -115,7 +96,7 @@ export default class Header extends Component {
             )}
           </div>
         </nav>
-        <Section authState={this.state.username} notes={this.state.notes} />
+        <Section authState={this.state.username} />
       </>
     );
   }

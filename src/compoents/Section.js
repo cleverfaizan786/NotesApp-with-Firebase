@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../Firebase Utility/firebase";
 
+
 import Note from "./Note";
+let n=0
 
 export default class Section extends Component {
   constructor(props) {
@@ -17,21 +19,12 @@ export default class Section extends Component {
           body: "",
         },
       ],
+    
+     
     };
   }
   // 😍 Successfully added note appending functionality to react website
   submitForm = (e) => {
-    this.setState((prevState) => ({
-      myArr: [
-        ...prevState.myArr,
-        {
-          heading: this.titleRef.current.value,
-          body: this.bodyRef.current.value,
-        },
-      ],
-    }));
-    // Destructuring or appending into array, rather than in object with spread operator
-
     e.preventDefault();
   };
 
@@ -42,22 +35,40 @@ export default class Section extends Component {
     });
 
     this.setState({
-      // Updating note and removing specific note
       myArr: [...updatedNotes],
+      // Updating note and removing specific note
     });
   }
-
+ 
   addData = async () => {
+    
+    this.setState((prevState) => ({
+      myArr: [
+        ...prevState.myArr,
+        {
+          heading: this.titleRef.current.value,
+          body: this.bodyRef.current.value,
+        },
+      ],
+    
+      // Destructuring or appending into array, rather than in object with spread operator
+    }));
+
     try {
+      // eslint-disable-next-line
       const docRef = await addDoc(collection(db, "notes"), {
         title: this.titleRef.current.value,
         description: this.bodyRef.current.value,
       });
-
-      console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+   
+    localStorage.setItem(`title${n}`, this.titleRef.current.value);
+    localStorage.setItem(`description${n}`, this.bodyRef.current.value);
+    n+=1;
+   
+   
   };
 
   render() {
@@ -117,22 +128,9 @@ export default class Section extends Component {
               />
             );
           })}
-
-          {/* Fetching Backend stuff */}
-          {this.props.authState !== ""
-            ? this.props.notes.map((elem, index) => {
-                return (
-                  <Note
-                    key={index}
-                    title={elem.title}
-                    content={elem.description}
-                    deleteBtn={() => this.handleDelete(index)}
-                  />
-                );
-              })
-            : null}
         </div>
-      </div>
+       </div>
+     
     );
   }
 }
