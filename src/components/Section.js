@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../Firebase Utility/firebase";
 
-
-import Note from "./Note";
-let n=0
+ 
 
 export default class Section extends Component {
   constructor(props) {
@@ -12,63 +10,25 @@ export default class Section extends Component {
     this.titleRef = React.createRef();
     this.bodyRef = React.createRef();
 
-    this.state = {
-      myArr: [
-        {
-          heading: "",
-          body: "",
-        },
-      ],
     
-     
-    };
   }
   // 😍 Successfully added note appending functionality to react website
   submitForm = (e) => {
     e.preventDefault();
   };
 
-  // Deleting a specific note ❌
-  handleDelete(key) {
-    let updatedNotes = this.state.myArr.filter((elem, index) => {
-      return key !== index;
-    });
-
-    this.setState({
-      myArr: [...updatedNotes],
-      // Updating note and removing specific note
-    });
-  }
- 
   addData = async () => {
-    
-    this.setState((prevState) => ({
-      myArr: [
-        ...prevState.myArr,
-        {
-          heading: this.titleRef.current.value,
-          body: this.bodyRef.current.value,
-        },
-      ],
-    
-      // Destructuring or appending into array, rather than in object with spread operator
-    }));
-
     try {
       // eslint-disable-next-line
-      const docRef = await addDoc(collection(db, "notes"), {
+      await addDoc(collection(db, "notes"), {
         title: this.titleRef.current.value,
         description: this.bodyRef.current.value,
+        timestamp:serverTimestamp()
       });
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-   
-    localStorage.setItem(`title${n}`, this.titleRef.current.value);
-    localStorage.setItem(`description${n}`, this.bodyRef.current.value);
-    n+=1;
-   
-   
+ 
   };
 
   render() {
@@ -116,21 +76,8 @@ export default class Section extends Component {
             </div>
           </form>
         </div>
-        <div className="flex flex-wrap">
-          {this.state.myArr.map((elem, index) => {
-            //  <Note title={elem.heading} content={elem.body} className="grid grid-cols-3"/>;
-            return this.title === "" || elem.body === "" ? null : (
-              <Note
-                key={index}
-                title={elem.heading}
-                content={elem.body}
-                deleteBtn={() => this.handleDelete(index)}
-              />
-            );
-          })}
-        </div>
-       </div>
-     
+      
+      </div>
     );
   }
 }

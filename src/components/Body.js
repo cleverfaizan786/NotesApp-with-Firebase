@@ -1,8 +1,12 @@
 import React, { Component } from "react";
-import { auth} from "../Firebase Utility/firebase";
+import { auth } from "../Firebase Utility/firebase";
 import { GoogleAuthProvider } from "@firebase/auth";
+import { collection, onSnapshot } from "firebase/firestore";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import Section from "./Section";
+import Section from "./Section.js";
+import Note from "./Note";
+import { db } from "../Firebase Utility/firebase";
+import '../App.css'
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -13,9 +17,19 @@ export default class Header extends Component {
     this.state = {
       photo: "",
       username: "",
+      noteData: [],
+      // In this array, we are passing objects and appending them into this array!!😍
     };
   }
-
+  fetchDataFromDb = () => {
+    onSnapshot(collection(db, "notes"), (snapshot) => {
+      this.setState({
+        noteData: snapshot.docs.map((doc) => {
+          return { id: doc.id, notes: doc.data() };
+        }),
+      });
+    });
+  };
   signInwithGoogle = async () => {
     await signInWithPopup(auth, googleProvider)
       .then((res) => {
@@ -27,18 +41,25 @@ export default class Header extends Component {
       .catch((er) => {
         console.log(er.message);
       });
+    // Taking snapshot of database and appending it to noteData
+    this.fetchDataFromDb();
   };
-  componentDidMount(){
+  componentDidMount() {
+    // eslint-disable-next-line
     onAuthStateChanged(auth, async (user) => {
-      if (user.displayName != null) {
+      if (user.displayName == null) {
         this.setState({
-       photo:user.photoURL,
-       username:user.displayName
-       
+          photo: "",
+          username: "",
         });
-        
+      } else {
+        this.setState({
+          photo: user.photoURL,
+          username: user.displayName,
+        });
       }
     });
+    this.fetchDataFromDb();
   }
 
   render() {
@@ -59,8 +80,8 @@ export default class Header extends Component {
           <div className="right-section mr-9 space-x-6">
             {this.state.photo === "" ? (
               <>
-                <button onClick={this.signInwithGoogle} className="button">
-                  Login
+                <button type="button" class="button" onClick={this.signInwithGoogle}>
+                  Sign in with Google
                 </button>
                 <button className="button">Signup</button>
               </>
@@ -83,7 +104,6 @@ export default class Header extends Component {
                           photo: "",
                           username: "",
                         });
-                        localStorage.clear()
                       })
                       .catch((error) => {
                         console.log(error);
@@ -97,6 +117,13 @@ export default class Header extends Component {
           </div>
         </nav>
         <Section authState={this.state.username} />
+        <div className="flex flex-wrap">
+          {this.state.username !== ""
+            ? this.state.noteData.map((elem) => {
+                return <Note key={elem.id} noteContent={elem.notes} />;
+              })
+            : null}
+        </div>
       </>
     );
   }
