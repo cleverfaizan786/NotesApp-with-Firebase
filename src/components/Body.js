@@ -120,7 +120,7 @@ export default class Header extends Component {
         <div className="flex flex-wrap">
           {this.state.username !== ""
             ? this.state.noteData.map((elem) => {
-                return <Note key={elem.id} noteContent={elem.notes} />;
+                return <Note key={elem.id} noteContent={elem.notes} mainid={elem.id} />;
               })
             : null}
         </div>

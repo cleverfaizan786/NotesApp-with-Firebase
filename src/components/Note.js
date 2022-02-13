@@ -1,6 +1,12 @@
 import React, { Component } from "react";
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "../Firebase Utility/firebase";
+
 
 export default class Note extends Component {
+    deleteNotes= async ()=>{
+      await deleteDoc(doc(db, "notes", this.props.mainid));
+    }
   render() {
     return (
       
@@ -15,7 +21,7 @@ export default class Note extends Component {
           {this.props.noteContent.description}
         </div>
         <button className="button my-5 mx-6">Edit</button>
-        <button className=" bg-red-600 text-white rounded-md px-4 pb-2 pt-1 hover:bg-red-700 transition " onClick={this.props.deleteBtn}>Delete</button>
+        <button className=" bg-red-600 text-white rounded-md px-4 pb-2 pt-1 hover:bg-red-700 transition " onClick={this.deleteNotes}>Delete</button>
       </div>
       
      
