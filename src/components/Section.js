@@ -2,15 +2,11 @@ import React, { Component } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../Firebase Utility/firebase";
 
- 
-
 export default class Section extends Component {
   constructor(props) {
     super(props);
     this.titleRef = React.createRef();
     this.bodyRef = React.createRef();
-
-    
   }
   // 😍 Successfully added note appending functionality to react website
   submitForm = (e) => {
@@ -23,12 +19,11 @@ export default class Section extends Component {
       await addDoc(collection(db, "notes"), {
         title: this.titleRef.current.value,
         description: this.bodyRef.current.value,
-        timestamp:serverTimestamp()
+        timestamp: serverTimestamp(),
       });
     } catch (e) {
       console.error("Error adding document: ", e);
     }
- 
   };
 
   render() {
@@ -66,7 +61,6 @@ export default class Section extends Component {
                 required
               />
               <button
-                type="submit"
                 onClick={this.addData}
                 className="button w-1/6 disabled:bg-blue-100 disabled:text-gray-500"
                 disabled={this.props.authState === "" ? true : false}
@@ -76,7 +70,6 @@ export default class Section extends Component {
             </div>
           </form>
         </div>
-      
       </div>
     );
   }

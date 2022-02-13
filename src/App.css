@@ -1,3 +1,41 @@
-*{
-  user-select: none
+* {
+  user-select: none;
+}
+
+.modal-container {
+  font-family: var(--fam2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -10;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(73, 166, 233, 0.5);
+  visibility: hidden;
+  place-items: center;
+}
+.modalDisplay {
+  background-color: aliceblue;
+  width: 30%;
+  margin: auto;
+  border-radius: 3px;
+  height: 390px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+
+  transition: all 0.2s ease-in-out;
+}
+
+textarea {
+  resize: none;
+}
+
+.modal-show {
+  visibility: visible;
+
+  z-index: 10;
 }
