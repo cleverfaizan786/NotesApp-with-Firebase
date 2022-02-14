@@ -39,7 +39,7 @@ export default class Note extends Component {
     return (
       <>
         <div className="modal-container" ref={this.modalRef}>
-          <div className="modalDisplay" ref={this.modalDisplay}>
+          <div className="modalDisplay w-[87%]" ref={this.modalDisplay}>
             <label
               htmlFor="newtext"
               className="text-blue-700 font-bold text-lg mt-10"
@@ -65,27 +65,27 @@ export default class Note extends Component {
               id="newcontent"
               className="border-2 border-gray-300 rounded-md  outline-none hover:shadow-lg p-1 hover:ring-gray-200 hover:ring-2"
             />
-            <button className="button mb-8" onClick={this.updateNotes}>
+            <button className="button mb-8 w-14" onClick={this.updateNotes}>
               Ok
             </button>
           </div>
         </div>
 
-        <div className="note-card shadow-xl w-1/5 h-auto my-12 ml-16 bg-white ring-1 ring-gray-400 rounded-sm break-words">
+        <div className="note-card shadow-xl  my-10 ml-4 w-52 bg-white ring-1 ring-gray-400 rounded-sm break-words">
           <div className="title font-bold text-center py-2 text-xl">
-            <span className="text-blue-600  ">Title:</span>{" "}
+            <span className="text-blue-900  ">Title:</span>{" "}
             {this.props.noteContent.title}
           </div>
           <hr />
           <div className="content p-5 text-lg">
-            <span className="font-bold text-blue-600 mr-2">Your Note:</span>
+            <span className="font-bold text-blue-900 mr-2">Your Note:</span>
             {this.props.noteContent.description}
           </div>
-          <button onClick={this.launch} className="button my-5 mx-6">
+          <button onClick={this.launch} className="button my-5 mx-3">
             Edit
           </button>
           <button
-            className=" bg-red-600 text-white rounded-md px-4 pb-2 pt-1 hover:bg-red-700 transition "
+            className=" bg-red-600 text-white rounded-md px-2 pb-1 pt-1 hover:bg-red-700 transition "
             onClick={this.deleteNotes}
           >
             Delete

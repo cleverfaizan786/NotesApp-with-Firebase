@@ -6,13 +6,15 @@ import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import Section from "./Section.js";
 import Note from "./Note";
 import { db } from "../Firebase Utility/firebase";
-import '../App.css'
+import "../App.css";
 
 const googleProvider = new GoogleAuthProvider();
 
 export default class Header extends Component {
   constructor(props) {
     super(props);
+    this.hamRef=React.createRef()
+  
 
     this.state = {
       photo: "",
@@ -31,7 +33,7 @@ export default class Header extends Component {
     });
   };
   signInwithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider)
+     signInWithPopup(auth, googleProvider)
       .then((res) => {
         this.setState({
           photo: res.user.photoURL,
@@ -62,41 +64,61 @@ export default class Header extends Component {
     this.fetchDataFromDb();
   }
 
+  openNav = () => {
+
+  
+   this.hamRef.current.classList.toggle("shadow-xl");
+   this.hamRef.current.classList.toggle("avail");
+  
+   this.hamRef.current.classList.toggle("bg-white");
+  }
+
+
   render() {
     return (
       <>
-        <nav className="sticky w-full bg-white h-[52px] top-0 flex text-blue-500 items-center justify-between shadow-lg">
-          <div className="left-section flex items-center">
-            <h1 className="ml-5 font-bold text-xl ">NotesApp</h1>
-            <ul className="flex w-1/2 ml-16 space-x-7">
-              <li className="hover:text-blue-800 cursor-pointer transition  border-b-2 border-transparent hover:border-blue-600">
-                Home
-              </li>
-              <li className="listyle">About</li>
-              <li className="listyle">Pricing</li>
+        <nav className="sticky top-0 flex flex-col bg-white h-10 shadow-md " >
+          <div className="navigationSection flex items-center space-x-6 space-y-1">
+            <div className="hamburger ml-4 mt-2 cursor-pointer" onClick={this.openNav}>
+              <div className="bar1 bg-blue-900 w-6 h-1 mb-1"></div>
+              <div className="bar2 bg-blue-900 w-6 h-1 mb-1"></div>
+              <div className="bar3 bg-blue-900 w-6 h-1"></div>
+            </div>
+            <h1 className="font-bold text-blue-900  text-lg">
+              NotesApp
+            </h1>
+          </div>
+
+          <div className="left-section flex justify-center absolute top-5 w-full -z-10 "  ref={this.hamRef}>
+            <ul className="flex flex-col items-center gap-3 ">
+              <li className="p-2 hover:underline-offset-2 cursor-pointer">Home</li>
+              <li className="p-2 hover:underline-offset-2 cursor-pointer">About</li>
+              <li className="p-2 hover:underline-offset-2 pb-2 cursor-pointer">Pricing</li>
             </ul>
           </div>
 
-          <div className="right-section mr-9 space-x-6">
+          <div className="right-section flex justify-end absolute right-0 top-1">
             {this.state.photo === "" ? (
               <>
-                <button type="button" class="button" onClick={this.signInwithGoogle}>
-                  Sign in with Google
+                <button
+                  className="button mr-2 "
+                  onClick={this.signInwithGoogle}
+                >
+                  Google Login
                 </button>
-                <button className="button">Signup</button>
               </>
             ) : (
-              <div className="flex space-x-4 items-center">
-                <div className="text-lg cursor-pointer">
-                  Welcome {this.state.username}
+              <div className="flex">
+                <div className="text-lg cursor-pointer mr-2 font-semibold">
+                  Welcome
                 </div>
                 <img
-                  className="rounded-full h-10 cursor-pointer"
+                  className="rounded-full h-8 cursor-pointer mr-4"
                   src={this.state.photo}
                   alt=""
                 />
                 <button
-                  className="button"
+                  className="button mr-2"
                   onClick={() => {
                     signOut(auth)
                       .then(() => {
@@ -120,7 +142,13 @@ export default class Header extends Component {
         <div className="flex flex-wrap">
           {this.state.username !== ""
             ? this.state.noteData.map((elem) => {
-                return <Note key={elem.id} noteContent={elem.notes} mainid={elem.id} />;
+                return (
+                  <Note
+                    key={elem.id}
+                    noteContent={elem.notes}
+                    mainid={elem.id}
+                  />
+                );
               })
             : null}
         </div>
