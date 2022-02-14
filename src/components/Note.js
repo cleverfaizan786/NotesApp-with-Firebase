@@ -50,7 +50,7 @@ export default class Note extends Component {
               ref={this.newTitleRef}
               type="text"
               id="newtext"
-              className="border-2 border-gray-300 rounded-md p-1 outline-none hover:shadow-lg  hover:ring-gray-200 hover:ring-2 w-96"
+              className="border-2 border-gray-300 rounded-md p-1 outline-none hover:shadow-lg  hover:ring-gray-200 hover:ring-2 w-80"
             />
             <label
               className="text-blue-700 font-bold text-lg"
@@ -61,7 +61,7 @@ export default class Note extends Component {
             <textarea
               ref={this.newBodyRef}
               rows="4"
-              cols="50"
+              cols="40"
               id="newcontent"
               className="border-2 border-gray-300 rounded-md  outline-none hover:shadow-lg p-1 hover:ring-gray-200 hover:ring-2"
             />
@@ -70,8 +70,8 @@ export default class Note extends Component {
             </button>
           </div>
         </div>
-
-        <div className="note-card shadow-xl  my-10 ml-4 w-52 bg-white ring-1 ring-gray-400 rounded-sm break-words">
+        <div className="flex ml-20 md:ml-8">
+        <div className="note-card shadow-xl  my-10 ml-4 w-52 bg-white ring-1 ring-gray-400 rounded-sm break-words ">
           <div className="title font-bold text-center py-2 text-xl">
             <span className="text-blue-900  ">Title:</span>{" "}
             {this.props.noteContent.title}
@@ -91,6 +91,8 @@ export default class Note extends Component {
             Delete
           </button>
         </div>
+        </div>
+       
       </>
     );
   }

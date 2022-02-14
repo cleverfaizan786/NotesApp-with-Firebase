@@ -23,7 +23,7 @@ export default class Header extends Component {
       // In this array, we are passing objects and appending them into this array!!😍
     };
   }
-  fetchDataFromDb = () => {
+  fetchDataFromDb =  () => {
     onSnapshot(collection(db, "notes"), (snapshot) => {
       this.setState({
         noteData: snapshot.docs.map((doc) => {
@@ -89,7 +89,7 @@ export default class Header extends Component {
             </h1>
           </div>
 
-          <div className="left-section flex justify-center absolute top-5 w-full -z-10 "  ref={this.hamRef}>
+          <div className="left-section flex justify-center absolute top-8 w-full -z-10 "  ref={this.hamRef}>
             <ul className="flex flex-col items-center gap-3 ">
               <li className="p-2 hover:underline-offset-2 cursor-pointer">Home</li>
               <li className="p-2 hover:underline-offset-2 cursor-pointer">About</li>

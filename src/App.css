@@ -17,7 +17,7 @@
 }
 .modalDisplay {
   background-color: aliceblue;
- 
+
   margin: auto;
   border-radius: 3px;
   height: 390px;
@@ -40,13 +40,11 @@ textarea {
   z-index: 10;
 }
 
-.left-section{
-visibility:hidden;
-transition: visibility 0.06s, background-color 0.2s;
-
-
+.left-section {
+  visibility: hidden;
+  transition: visibility 0.06s, background-color 0.2s;
 }
 
-.avail{
-  visibility:visible;
+.avail {
+  visibility: visible;
 }

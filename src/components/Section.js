@@ -29,7 +29,7 @@ export default class Section extends Component {
   render() {
     return (
       <div>
-        <h1 className="font-bold text-3xl text-center mt-10 font-[amazon] text-blue-700">
+        <h1 className="font-bold text-3xl text-center mt-10 mx-3 font-[amazon] text-blue-700">
           Welcome to NotesTaking App
         </h1>
         <div className="w-[85%] m-auto mt-10">
@@ -61,7 +61,7 @@ export default class Section extends Component {
                 required
               />
               <button
-              type="submit"
+                type="submit"
                 onClick={this.addData}
                 className="button w-24 disabled:bg-blue-100  disabled:text-gray-500"
                 disabled={this.props.authState === "" ? true : false}
